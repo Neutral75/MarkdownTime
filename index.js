@@ -22,7 +22,12 @@ app.get('/time', async (request, response) => {
     const date = new Date(timestamp);
     const now = new Date();
 
-    let timestring;
+    let width = 145;
+    let timestring = 'Invalid Date';
+
+    if (!time || !format) {
+        return response.send('No time or format was present.');
+    }
 
     if (format === 'shortdate') {
         timestring = new Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).format(date);
@@ -33,8 +38,10 @@ app.get('/time', async (request, response) => {
     } else if (format === 'longtime') {
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }).format(date);
     } else if (format === 'shortdatetime') {
+        width = 205;
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', month: '2-digit', day: '2-digit', year: 'numeric', hour12: true }).format(date);
     } else if (format === 'longdatetime') {
+        width = 285;
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', month: 'long', day: 'numeric', year: 'numeric', hour12: true }).format(date);
     } else if (format === 'relative') {
         const milliseconds = date.getTime() - now.getTime();
@@ -75,8 +82,10 @@ app.get('/time', async (request, response) => {
             }
         }
     }
-    
-    return response.send(timestring);
+
+    const SVG = `<svg width="${width}" height="32"><style>@font-face{font-family:'Noto Sans'}</style><rect x="0" y="0" width="${width}" height="32" fill="#1a1c1f" rx="5" stroke="#747f8d" stroke-width="2"/><rect x="1" y="1" width="${width - 2}" height="30" fill="none" rx="3" stroke="#747f8d" stroke-width="2"/><text x="50%" y="17" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans', sans-serif" font-size="18px" font-weight="500">${timestring}</text></svg>`;
+
+    return response.send(SVG);
 });
 
 app.listen(process.env.PORT || 3000, () => {
