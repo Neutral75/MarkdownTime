@@ -1,0 +1,25 @@
+{
+  "name": "markdowntime",
+  "version": "1.0.0",
+  "description": "MarkdownTime is a nifty tool that generates dynamic timestamp links for your Markdown files to always display the current time. Never miss a beat with MarkdownTime!",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neutral75/markdowntime.git"
+  },
+  "author": "neutral75",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neutral75/markdowntime/issues"
+  },
+  "homepage": "https://github.com/neutral75/markdowntime#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "path": "^0.12.7"
+  }
+}
