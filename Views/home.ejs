@@ -31,7 +31,26 @@
 </head>
 
 <body>
-
+    <p>Note: Once you click submit, you will be redirected to the page of the formated time, you'll need to copy the page link to use it.</p>
+    <br>
+    <form action="/time" method="GET">
+        <label for="time">Date & Time</label>
+        <input type="datetime-local" id="time" name="time" />
+        <br>
+        <label for="format">Format:</label>
+        <select id="format" name="format">
+            <option value="shortdate">Short Date</option>
+            <option value="longdate">Long Date</option>
+            <option value="shorttime">Short Time</option>
+            <option value="longtime">Long Time</option>
+            <option value="shortdatetime">Short Date w/ time</option>
+            <option value="longdatetime">Long Date w/ time</option>
+            <option value="relative">Relative</option>
+        </select>
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 
 </html>
