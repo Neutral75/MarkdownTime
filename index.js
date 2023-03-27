@@ -81,11 +81,13 @@ app.get('/time', async (request, response) => {
                 timestring = Math.abs(years === 1) ? `${Math.abs(years)} year ago` : `${Math.abs(years)} years ago`;
             }
         }
+    } else {
+        timestring = 'Invalid Format';
     }
 
-    const SVG = `<svg width="${width}" height="32"><style>@font-face{font-family:'Noto Sans'}</style><rect x="0" y="0" width="${width}" height="32" fill="#1a1c1f" rx="5" stroke="#747f8d" stroke-width="2"/><rect x="1" y="1" width="${width - 2}" height="30" fill="none" rx="3" stroke="#747f8d" stroke-width="2"/><text x="50%" y="17" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans', sans-serif" font-size="18px" font-weight="500">${timestring}</text></svg>`;
+    const SVG = `<svg width="${width}" height="32" xmlns="http://www.w3.org/2000/svg"><style></style><rect x="0" y="0" width="${width}" height="32" fill="#1a1c1f" rx="5" stroke="#747f8d" stroke-width="2"/><rect x="1" y="1" width="${width - 2}" height="30" fill="none" rx="3" stroke="#747f8d" stroke-width="2"/><text x="50%" y="17" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans', sans-serif" font-size="18px" font-weight="500">${timestring}</text></svg>`;
 
-    return response.send(SVG);
+    return response.type('image/svg+xml').send(SVG);
 });
 
 app.listen(process.env.PORT || 3000, () => {
