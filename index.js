@@ -68,17 +68,17 @@ app.get('/time', async (request, response) => {
             }
         } else {
             if (seconds > -60) {
-                timestring = Math.abs(seconds === 1) ? `${Math.abs(seconds)} second ago` : `${Math.abs(seconds)} seconds ago`;
+                timestring = Math.abs(seconds === -1) ? `${Math.abs(seconds)} second ago` : `${Math.abs(seconds)} seconds ago`;
             } else if (minutes > -60) {
-                timestring = Math.abs(minutes === 1) ? `${Math.abs(minutes)} minute ago` : `${Math.abs(minutes)} minutes ago`;
+                timestring = Math.abs(minutes === -1) ? `${Math.abs(minutes)} minute ago` : `${Math.abs(minutes)} minutes ago`;
             } else if (hours > -24) {
-                timestring = Math.abs(hours === 1) ? `${Math.abs(hours)} hour ago` : `${Math.abs(hours)} hours ago`;
+                timestring = Math.abs(hours === -1) ? `${Math.abs(hours)} hour ago` : `${Math.abs(hours)} hours ago`;
             } else if (days > -30) {
-                timestring = Math.abs(days === 1) ? `${Math.abs(days)} day ago` : `${Math.abs(days)} days ago`;
+                timestring = Math.abs(days === -1) ? `${Math.abs(days)} day ago` : `${Math.abs(days)} days ago`;
             } else if (months > -12) {
-                timestring = Math.abs(months === 1) ? `${Math.abs(months)} month ago` : `${Math.abs(months)} months ago`;
+                timestring = Math.abs(months === -1) ? `${Math.abs(months)} month ago` : `${Math.abs(months)} months ago`;
             } else {
-                timestring = Math.abs(years === 1) ? `${Math.abs(years)} year ago` : `${Math.abs(years)} years ago`;
+                timestring = Math.abs(years === -1) ? `${Math.abs(years)} year ago` : `${Math.abs(years)} years ago`;
             }
         }
     } else {
