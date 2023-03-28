@@ -17,6 +17,8 @@ app.get('/', async (request, response) => {
 app.get('/time', async (request, response) => {
     const time = request.query.time;
     const format = request.query.format;
+    const color = request.query.color || '1A1C1F';
+    const border = request.query.border || '747F8D';
 
     const timestamp = Date.parse(time);
     const date = new Date(timestamp);
@@ -32,6 +34,7 @@ app.get('/time', async (request, response) => {
     if (format === 'shortdate') {
         timestring = new Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).format(date);
     } else if (format === 'longdate') {
+        width = 205;
         timestring = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
     } else if (format === 'shorttime') {
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).format(date);
@@ -85,7 +88,7 @@ app.get('/time', async (request, response) => {
         timestring = 'Invalid Format';
     }
 
-    const SVG = `<svg width="${width}" height="32" xmlns="http://www.w3.org/2000/svg"><style></style><rect x="0" y="0" width="${width}" height="32" fill="#1a1c1f" rx="5" stroke="#747f8d" stroke-width="2"/><rect x="1" y="1" width="${width - 2}" height="30" fill="none" rx="3" stroke="#747f8d" stroke-width="2"/><text x="50%" y="17" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans', sans-serif" font-size="18px" font-weight="500">${timestring}</text></svg>`;
+    const SVG = `<svg width="${width}" height="32" xmlns="http://www.w3.org/2000/svg"><style></style><rect x="0" y="0" width="${width}" height="32" fill="#${color}" rx="5" stroke="#${border}" stroke-width="2"/><rect x="1" y="1" width="${width - 2}" height="30" fill="none" rx="3" stroke="#${border}" stroke-width="2"/><text x="50%" y="17" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans', sans-serif" font-size="18px" font-weight="500">${timestring}</text></svg>`;
 
     return response.type('image/svg+xml').send(SVG);
 });
