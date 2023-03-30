@@ -27,8 +27,8 @@ app.get('/time', async (request, response) => {
     const date = new Date(timestamp);
     const now = new Date();
 
-    let width = 145;
-    let height = size === 'large' ? 64 : 32;
+    const width = 145;
+    const height = size === 'large' ? 64 : 32;
     let timestring = 'Invalid Date';
 
     if (!time || !format) {
@@ -38,17 +38,14 @@ app.get('/time', async (request, response) => {
     if (format === 'shortdate') {
         timestring = new Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).format(date);
     } else if (format === 'longdate') {
-        width = 205;
         timestring = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
     } else if (format === 'shorttime') {
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).format(date);
     } else if (format === 'longtime') {
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }).format(date);
     } else if (format === 'shortdatetime') {
-        width = 205;
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', month: '2-digit', day: '2-digit', year: 'numeric', hour12: true }).format(date);
     } else if (format === 'longdatetime') {
-        width = 285;
         timestring = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', month: 'long', day: 'numeric', year: 'numeric', hour12: true }).format(date);
     } else if (format === 'relative') {
         const milliseconds = date.getTime() - now.getTime();
@@ -92,7 +89,26 @@ app.get('/time', async (request, response) => {
         timestring = 'Invalid Format';
     }
 
-    const SVG = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><style></style><rect x="0" y="0" width="${width}" height="${height}" fill="#${backgroundColor}" rx="${borderRadius}" stroke="#${borderColor}" stroke-width="2"/><rect x="1" y="1" width="${width - 2}" height="${height -2}" fill="none" rx="${borderRadius - 2}" stroke="#${borderColor}" stroke-width="2"/><text x="50%" y="${height === 32 ? 17.25 : 33 }" dominant-baseline="middle" text-anchor="middle" fill="#${fontColor}" font-family="'Noto Sans', sans-serif" font-size="18px" font-weight="500">${timestring}</text></svg>`;
+    const SVG = 
+    `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="${width}" height="${height}" fill="#${backgroundColor}" rx="${borderRadius}" stroke="#${borderColor}" stroke-width="2" />
+    <rect x="1" y="1" width="${width - 2}" height="${height -2}" fill="none" rx="${borderRadius - 2}" stroke="#${borderColor}" stroke-width="2" />
+    <text x="50%" y="${height === 32 ? 17.25 : 33 }" dominant-baseline="middle" text-anchor="middle" fill="#${fontColor}" font-family="'Noto Sans', sans-serif" font-size="18px" font-weight="500">${timestring}</text>
+    <script>
+        const text = document.querySelector('text').getComputedTextLength();
+        const length = text + 36;
+        if (length > ${width}) {
+            document.querySelector('svg').setAttribute('width', length);
+            document.querySelectorAll('rect')[0].setAttribute('width', length);
+            document.querySelectorAll('rect')[1].setAttribute('width', length - 2);
+        } else {
+            document.querySelectorAll('rect')[0].setAttribute('width', 145);
+            document.querySelectorAll('rect')[1].setAttribute('width', 143);
+        }
+    </script>
+    </svg>
+    `;
 
     return response.type('image/svg+xml').send(SVG);
 });
